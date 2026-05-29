@@ -14,14 +14,14 @@
     --muted:     #8b949e;
     --accent:    #388bfd;
 
-    --c-veryhigh:   #80001a;
-    --c-high:       #e31a1c;
-    --c-modhigh:    #fd8d3c;
-    --c-modlow:     #fecc5c;
-    --c-low:        #fff7b2;
-    --c-mpa:        #4dac26;
-    --c-shipping:   #555;
-    --c-excl:       #3a5068;
+    --c-veryhigh:   #08306b;
+    --c-high:       #2171b5;
+    --c-modhigh:    #4292c6;
+    --c-modlow:     #9ecae1;
+    --c-low:        #deebf7;
+    --c-mpa:        #41ab5d;
+    --c-shipping:   #444;
+    --c-excl:       #d2dae2;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -112,7 +112,7 @@
     height: 3px;
   }
   .hero-card.c1::before { background: linear-gradient(90deg, var(--c-veryhigh), var(--c-high)); }
-  .hero-card.c2::before { background: linear-gradient(90deg, var(--c-high), var(--c-modhigh)); }
+  .hero-card.c2::before { background: linear-gradient(90deg, var(--c-modhigh), var(--c-high)); }
   .hero-card.c3::before { background: #4a90d9; }
   .hero-card.c4::before { background: var(--c-mpa); }
   .hero-card .card-label {
@@ -129,8 +129,8 @@
     line-height: 1;
     letter-spacing: -1px;
   }
-  .hero-card.c1 .card-value { color: #e31a1c; }
-  .hero-card.c2 .card-value { color: #fd8d3c; }
+  .hero-card.c1 .card-value { color: #2171b5; }
+  .hero-card.c2 .card-value { color: #08306b; }
   .hero-card.c3 .card-value { color: #4a90d9; }
   .hero-card.c4 .card-value { color: var(--c-mpa); }
   .hero-card .card-sub {
@@ -499,13 +499,13 @@
 <script>
 // ── Data ─────────────────────────────────────────────────────────────────
 var rows = [
-  { label: 'Very High',      score: '>4.5',      area: 52872, color: '#80001a' },
-  { label: 'High',           score: '3.75–4.5',  area: 77298, color: '#e31a1c' },
-  { label: 'Moderate-High',  score: '3.0–3.75',  area: 29309, color: '#fd8d3c' },
-  { label: 'Moderate-Low',   score: '2.0–3.0',   area:  6458, color: '#fecc5c' },
-  { label: 'Low',            score: '<2.0',       area:  1413, color: '#fff7b2' },
-  { label: 'MPA excluded',   score: '—',          area:  2844, color: '#4dac26' },
-  { label: 'Shipping excl.', score: '—',          area:   927, color: '#555555' },
+  { label: 'Very High',      score: '>4.5',      area: 52872, color: '#08306b' },
+  { label: 'High',           score: '3.75–4.5',  area: 77298, color: '#2171b5' },
+  { label: 'Moderate-High',  score: '3.0–3.75',  area: 29309, color: '#4292c6' },
+  { label: 'Moderate-Low',   score: '2.0–3.0',   area:  6458, color: '#9ecae1' },
+  { label: 'Low',            score: '<2.0',       area:  1413, color: '#deebf7' },
+  { label: 'MPA excluded',   score: '—',          area:  2844, color: '#41ab5d' },
+  { label: 'Shipping excl.', score: '—',          area:   927, color: '#444444' },
 ];
 var totalArea = rows.reduce(function(s, r){ return s + r.area; }, 0);
 
@@ -579,7 +579,7 @@ new Chart(windCtx, {
     datasets: [{
       label: 'Wind speed range (m/s)',
       data: [0.3, 1.2, 3.5, 18.9, 76.1],
-      backgroundColor: ['#fff7b2', '#fecc5c', '#fd8d3c', '#e31a1c', '#80001a'],
+      backgroundColor: ['#deebf7', '#9ecae1', '#4292c6', '#2171b5', '#08306b'],
       borderColor: '#0d1117',
       borderWidth: 1,
       borderRadius: 4
