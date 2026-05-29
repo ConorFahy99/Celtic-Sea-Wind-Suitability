@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celtic Sea Wind Suitability — Findings</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:        #0d1117;
+    --surface:   #161b22;
+    --border:    #30363d;
+    --text:      #e6edf3;
+    --muted:     #8b949e;
+    --accent:    #388bfd;
+
+    --c-veryhigh:   #80001a;
+    --c-high:       #e31a1c;
+    --c-modhigh:    #fd8d3c;
+    --c-modlow:     #fecc5c;
+    --c-low:        #fff7b2;
+    --c-mpa:        #4dac26;
+    --c-shipping:   #555;
+    --c-excl:       #3a5068;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── Layout ───────────────────────────────────── */
+  .page { max-width: 1060px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  /* ── Header ───────────────────────────────────── */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header .eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .header h1 span { color: #4a90d9; }
+  .header p {
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .header .meta {
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .header .meta span { display: flex; align-items: center; gap: 5px; }
+
+  /* ── Section title ────────────────────────────── */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Hero stats ───────────────────────────────── */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .hero-card.c1::before { background: linear-gradient(90deg, var(--c-veryhigh), var(--c-high)); }
+  .hero-card.c2::before { background: linear-gradient(90deg, var(--c-high), var(--c-modhigh)); }
+  .hero-card.c3::before { background: #4a90d9; }
+  .hero-card.c4::before { background: var(--c-mpa); }
+  .hero-card .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .hero-card .card-value {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .hero-card.c1 .card-value { color: #e31a1c; }
+  .hero-card.c2 .card-value { color: #fd8d3c; }
+  .hero-card.c3 .card-value { color: #4a90d9; }
+  .hero-card.c4 .card-value { color: var(--c-mpa); }
+  .hero-card .card-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* ── Two-column section ───────────────────────── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Chart container ──────────────────────────── */
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .chart-wrap canvas { max-height: 300px; }
+
+  /* ── Suitability breakdown table ─────────────── */
+  .breakdown-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+  .breakdown-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .breakdown-table th {
+    background: #1c2230;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 16px;
+    text-align: left;
+  }
+  .breakdown-table td {
+    padding: 11px 16px;
+    border-top: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .breakdown-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .swatch {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border-radius: 2px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .bar-cell { width: 30%; }
+  .bar-bg {
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .pct-cell { color: var(--muted); font-size: 12px; text-align: right; }
+
+  /* ── Criteria cards ───────────────────────────── */
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .criteria-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .criteria-card .crit-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .crit-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .crit-icon.depth    { background: rgba(74,144,217,0.15); }
+  .crit-icon.wind     { background: rgba(253,141,60,0.15); }
+  .crit-icon.distance { background: rgba(77,172,38,0.15); }
+  .criteria-card h3 { font-size: 14px; font-weight: 700; }
+  .criteria-card .weight {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(56,139,253,0.12);
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-left: auto;
+  }
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
+  .score-badge {
+    width: 22px; height: 22px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+  .score-badge.s5 { background: #80001a; color: #fff; }
+  .score-badge.s4 { background: #e31a1c; color: #fff; }
+  .score-badge.s3 { background: #fd8d3c; color: #000; }
+  .score-badge.s2 { background: #fecc5c; color: #000; }
+  .score-badge.s1 { background: #fff7b2; color: #000; }
+  .score-badge.s0 { background: #2a2a2a; color: #888; }
+  .score-desc { color: var(--muted); line-height: 1.3; }
+
+  /* ── Data sources ─────────────────────────────── */
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .source-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 12px;
+  }
+  .source-card .src-name {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .source-card .src-org { color: var(--accent); margin-bottom: 4px; }
+  .source-card .src-detail { color: var(--muted); line-height: 1.4; }
+
+  /* ── Footer ───────────────────────────────────── */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── Map preview link ─────────────────────────── */
+  .map-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(56,139,253,0.12);
+    border: 1px solid rgba(56,139,253,0.3);
+    color: var(--accent);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.15s;
+    margin-top: 12px;
+  }
+  .map-link-btn:hover { background: rgba(56,139,253,0.2); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="eyebrow">Spatial Analysis · May 2026</div>
+    <h1>Celtic Sea — <span>Offshore Wind</span> Site Suitability</h1>
+    <p>Multi-criteria screening of Ireland's EEZ for floating offshore wind development potential at 500 m resolution.</p>
+    <div class="meta">
+      <span>📐 500 m grid</span>
+      <span>🗺 EPSG:32629 (UTM 29N)</span>
+      <span>🌊 Ireland EEZ · Celtic Sea</span>
+      <span>⚙ Python · rasterio · QGIS</span>
+    </div>
+  </div>
+
+  <!-- Hero stats -->
+  <div class="section-title">Key findings</div>
+  <div class="hero-grid">
+    <div class="hero-card c1">
+      <div class="card-label">Very High suitability</div>
+      <div class="card-value">52,872</div>
+      <div class="card-sub">km² · score &gt; 4.5</div>
+    </div>
+    <div class="hero-card c2">
+      <div class="card-label">Total viable area</div>
+      <div class="card-value">159,479</div>
+      <div class="card-sub">km² · score ≥ 3.0 (≥ Moderate-High)</div>
+    </div>
+    <div class="hero-card c3">
+      <div class="card-label">Share of EEZ viable</div>
+      <div class="card-value">84.5%</div>
+      <div class="card-sub">of analysed sea area</div>
+    </div>
+    <div class="hero-card c4">
+      <div class="card-label">Mean wind speed</div>
+      <div class="card-value">10.51</div>
+      <div class="card-sub">m/s at 100 m hub height</div>
+    </div>
+  </div>
+
+  <!-- Chart + breakdown -->
+  <div class="two-col">
+    <div>
+      <div class="section-title">Suitability distribution</div>
+      <div class="chart-wrap">
+        <canvas id="donutChart"></canvas>
+      </div>
+    </div>
+    <div>
+      <div class="section-title">Wind speed distribution</div>
+      <div class="chart-wrap">
+        <canvas id="windChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed breakdown table -->
+  <div class="section-title">Area breakdown</div>
+  <div class="breakdown-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Score range</th>
+          <th>Area (km²)</th>
+          <th class="bar-cell">Share of total</th>
+          <th class="pct-cell">%</th>
+        </tr>
+      </thead>
+      <tbody id="breakdown-body"></tbody>
+    </table>
+  </div>
+
+  <!-- Criteria -->
+  <div class="section-title">Scoring criteria</div>
+  <div class="criteria-grid">
+
+    <div class="criteria-card">
+      <div class="crit-header">
+        <div class="crit-icon depth">🌊</div>
+        <h3>Water depth</h3>
+        <span class="weight">40%</span>
+      </div>
+      <div class="score-row"><div class="score-badge s5">5</div><span class="score-desc">50–200 m — optimal floating wind</span></div>
+      <div class="score-row"><div class="score-badge s4">4</div><span class="score-desc">200–300 m — deeper floating viable</span></div>
+      <div class="score-row"><div class="score-badge s2">2</div><span class="score-desc">300–500 m — complex moorings</span></div>
+      <div class="score-row"><div class="score-badge s1">1</div><span class="score-desc">0–50 m — fixed-foundation range</span></div>
+      <div class="score-row"><div class="score-badge s0">0</div><span class="score-desc">&gt; 500 m — beyond current limits</span></div>
+    </div>
+
+    <div class="criteria-card">
+      <div class="crit-header">
+        <div class="crit-icon wind">💨</div>
+        <h3>Wind speed (100 m)</h3>
+        <span class="weight">35%</span>
+      </div>
+      <div class="score-row"><div class="score-badge s5">5</div><span class="score-desc">&gt; 10.5 m/s</span></div>
+      <div class="score-row"><div class="score-badge s4">4</div><span class="score-desc">9.5–10.5 m/s</span></div>
+      <div class="score-row"><div class="score-badge s3">3</div><span class="score-desc">9.0–9.5 m/s</span></div>
+      <div class="score-row"><div class="score-badge s2">2</div><span class="score-desc">8.0–9.0 m/s</span></div>
+      <div class="score-row"><div class="score-badge s1">1</div><span class="score-desc">&lt; 8.0 m/s</span></div>
+    </div>
+
+    <div class="criteria-card">
+      <div class="crit-header">
+        <div class="crit-icon distance">📏</div>
+        <h3>Distance from shore</h3>
+        <span class="weight">25%</span>
+      </div>
+      <div class="score-row"><div class="score-badge s5">5</div><span class="score-desc">30–60 km — optimal balance</span></div>
+      <div class="score-row"><div class="score-badge s4">4</div><span class="score-desc">60–100 km — longer export cable</span></div>
+      <div class="score-row"><div class="score-badge s3">3</div><span class="score-desc">12–30 km — moderate</span></div>
+      <div class="score-row"><div class="score-badge s2">2</div><span class="score-desc">&gt; 100 km — O&amp;M challenges</span></div>
+      <div class="score-row"><div class="score-badge s1">1</div><span class="score-desc">5–12 km — near-shore</span></div>
+      <div class="score-row"><div class="score-badge s0">0</div><span class="score-desc">0–5 km — visual impact exclusion</span></div>
+    </div>
+
+  </div>
+
+  <!-- Data sources -->
+  <div class="section-title">Data sources</div>
+  <div class="sources-grid">
+    <div class="source-card">
+      <div class="src-name">GEBCO 2026</div>
+      <div class="src-org">General Bathymetric Chart of the Oceans</div>
+      <div class="src-detail">15 arc-second global bathymetry grid · 2026 release</div>
+    </div>
+    <div class="source-card">
+      <div class="src-name">Global Wind Atlas v3.3</div>
+      <div class="src-org">DTU Wind Energy / World Bank</div>
+      <div class="src-detail">Mean wind speed at 100 m hub height · ~250 m resolution</div>
+    </div>
+    <div class="source-card">
+      <div class="src-name">Vessel Density 2024</div>
+      <div class="src-org">EMODnet Human Activities</div>
+      <div class="src-detail">Annual average vessel density · all ship types</div>
+    </div>
+    <div class="source-card">
+      <div class="src-name">OSPAR MPA Network</div>
+      <div class="src-org">OSPAR Commission</div>
+      <div class="src-detail">Marine Protected Areas · 2021 dataset · 599 features</div>
+    </div>
+    <div class="source-card">
+      <div class="src-name">World EEZ v12</div>
+      <div class="src-org">Marine Regions / Flanders Marine Institute</div>
+      <div class="src-detail">Exclusive Economic Zone boundaries · October 2023</div>
+    </div>
+  </div>
+
+  <!-- Map link -->
+  <div style="text-align:center; margin-bottom: 48px;">
+    <div class="section-title" style="text-align:left">Interactive map</div>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; text-align:center;">
+      <p style="color:var(--muted); font-size:14px;">Explore the full suitability raster with layer toggles, opacity controls, and area statistics.</p>
+      <a href="celtic_sea_wind_suitability_map.html" class="map-link-btn">
+        ↗ Open interactive map
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>Celtic Sea Offshore Wind Site Suitability · Conor Fahy · May 2026</p>
+    <p style="margin-top:4px">Analysis: Python · rasterio · numpy · scipy · QGIS &nbsp;|&nbsp; Cartography: matplotlib · Leaflet.js</p>
+  </div>
+
+</div>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────
+var rows = [
+  { label: 'Very High',      score: '>4.5',      area: 52872, color: '#80001a' },
+  { label: 'High',           score: '3.75–4.5',  area: 77298, color: '#e31a1c' },
+  { label: 'Moderate-High',  score: '3.0–3.75',  area: 29309, color: '#fd8d3c' },
+  { label: 'Moderate-Low',   score: '2.0–3.0',   area:  6458, color: '#fecc5c' },
+  { label: 'Low',            score: '<2.0',       area:  1413, color: '#fff7b2' },
+  { label: 'MPA excluded',   score: '—',          area:  2844, color: '#4dac26' },
+  { label: 'Shipping excl.', score: '—',          area:   927, color: '#555555' },
+];
+var totalArea = rows.reduce(function(s, r){ return s + r.area; }, 0);
+
+// ── Build breakdown table ────────────────────────────────────────────────
+var tbody = document.getElementById('breakdown-body');
+rows.forEach(function(r) {
+  var pct = (r.area / totalArea * 100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = [
+    '<td><span class="swatch" style="background:' + r.color + '"></span>' + r.label + '</td>',
+    '<td style="color:var(--muted)">' + r.score + '</td>',
+    '<td>' + r.area.toLocaleString() + '</td>',
+    '<td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:' + pct + '%;background:' + r.color + '"></div></div></td>',
+    '<td class="pct-cell">' + pct + '%</td>'
+  ].join('');
+  tbody.appendChild(tr);
+});
+
+// ── Donut chart ──────────────────────────────────────────────────────────
+var donutCtx = document.getElementById('donutChart').getContext('2d');
+new Chart(donutCtx, {
+  type: 'doughnut',
+  data: {
+    labels: rows.map(function(r){ return r.label; }),
+    datasets: [{
+      data: rows.map(function(r){ return r.area; }),
+      backgroundColor: rows.map(function(r){ return r.color; }),
+      borderColor: '#0d1117',
+      borderWidth: 2,
+      hoverOffset: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#8b949e',
+          font: { size: 11 },
+          padding: 12,
+          boxWidth: 12,
+          boxHeight: 12
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            var val = ctx.raw;
+            var pct = (val / totalArea * 100).toFixed(1);
+            return ' ' + val.toLocaleString() + ' km² (' + pct + '%)';
+          }
+        },
+        backgroundColor: '#1c2230',
+        borderColor: '#30363d',
+        borderWidth: 1,
+        titleColor: '#e6edf3',
+        bodyColor: '#8b949e'
+      }
+    },
+    cutout: '62%'
+  }
+});
+
+// ── Wind speed bar chart ─────────────────────────────────────────────────
+var windCtx = document.getElementById('windChart').getContext('2d');
+new Chart(windCtx, {
+  type: 'bar',
+  data: {
+    labels: ['<8.0', '8.0–9.0', '9.0–9.5', '9.5–10.5', '>10.5'],
+    datasets: [{
+      label: 'Wind speed range (m/s)',
+      data: [0.3, 1.2, 3.5, 18.9, 76.1],
+      backgroundColor: ['#fff7b2', '#fecc5c', '#fd8d3c', '#e31a1c', '#80001a'],
+      borderColor: '#0d1117',
+      borderWidth: 1,
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) { return ' ' + ctx.raw + '% of sea area'; }
+        },
+        backgroundColor: '#1c2230',
+        borderColor: '#30363d',
+        borderWidth: 1,
+        titleColor: '#e6edf3',
+        bodyColor: '#8b949e'
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: { color: '#8b949e', font: { size: 11 }, callback: function(v){ return v + '%'; } },
+        grid: { color: 'rgba(255,255,255,0.06)' }
+      },
+      x: {
+        ticks: { color: '#8b949e', font: { size: 11 } },
+        grid: { display: false }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
