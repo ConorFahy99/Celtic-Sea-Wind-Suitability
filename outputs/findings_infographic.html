@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Celtic Sea Wind Suitability — Findings</title>
+<title>Celtic Sea Wind Suitability - Findings</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
@@ -333,7 +333,7 @@
   <!-- Header -->
   <div class="header">
     <div class="eyebrow">Spatial Analysis · May 2026</div>
-    <h1>Celtic Sea — <span>Offshore Wind</span> Site Suitability</h1>
+    <h1>Celtic Sea - <span>Offshore Wind</span> Site Suitability</h1>
     <p>Multi-criteria screening of Ireland's EEZ for floating offshore wind development potential at 500 m resolution.</p>
     <div class="meta">
       <span>📐 500 m grid</span>
@@ -411,11 +411,11 @@
         <h3>Water depth</h3>
         <span class="weight">40%</span>
       </div>
-      <div class="score-row"><div class="score-badge s5">5</div><span class="score-desc">50–200 m — optimal floating wind</span></div>
-      <div class="score-row"><div class="score-badge s4">4</div><span class="score-desc">200–300 m — deeper floating viable</span></div>
-      <div class="score-row"><div class="score-badge s2">2</div><span class="score-desc">300–500 m — complex moorings</span></div>
-      <div class="score-row"><div class="score-badge s1">1</div><span class="score-desc">0–50 m — fixed-foundation range</span></div>
-      <div class="score-row"><div class="score-badge s0">0</div><span class="score-desc">&gt; 500 m — beyond current limits</span></div>
+      <div class="score-row"><div class="score-badge s5">5</div><span class="score-desc">50–200 m - optimal floating wind</span></div>
+      <div class="score-row"><div class="score-badge s4">4</div><span class="score-desc">200–300 m - deeper floating viable</span></div>
+      <div class="score-row"><div class="score-badge s2">2</div><span class="score-desc">300–500 m - complex moorings</span></div>
+      <div class="score-row"><div class="score-badge s1">1</div><span class="score-desc">0–50 m - fixed-foundation range</span></div>
+      <div class="score-row"><div class="score-badge s0">0</div><span class="score-desc">&gt; 500 m - beyond current limits</span></div>
     </div>
 
     <div class="criteria-card">
@@ -437,12 +437,12 @@
         <h3>Distance from shore</h3>
         <span class="weight">25%</span>
       </div>
-      <div class="score-row"><div class="score-badge s5">5</div><span class="score-desc">30–60 km — optimal balance</span></div>
-      <div class="score-row"><div class="score-badge s4">4</div><span class="score-desc">60–100 km — longer export cable</span></div>
-      <div class="score-row"><div class="score-badge s3">3</div><span class="score-desc">12–30 km — moderate</span></div>
-      <div class="score-row"><div class="score-badge s2">2</div><span class="score-desc">&gt; 100 km — O&amp;M challenges</span></div>
-      <div class="score-row"><div class="score-badge s1">1</div><span class="score-desc">5–12 km — near-shore</span></div>
-      <div class="score-row"><div class="score-badge s0">0</div><span class="score-desc">0–5 km — visual impact exclusion</span></div>
+      <div class="score-row"><div class="score-badge s5">5</div><span class="score-desc">30–60 km - optimal balance</span></div>
+      <div class="score-row"><div class="score-badge s4">4</div><span class="score-desc">60–100 km - longer export cable</span></div>
+      <div class="score-row"><div class="score-badge s3">3</div><span class="score-desc">12–30 km - moderate</span></div>
+      <div class="score-row"><div class="score-badge s2">2</div><span class="score-desc">&gt; 100 km - O&amp;M challenges</span></div>
+      <div class="score-row"><div class="score-badge s1">1</div><span class="score-desc">5–12 km - near-shore</span></div>
+      <div class="score-row"><div class="score-badge s0">0</div><span class="score-desc">0–5 km - visual impact exclusion</span></div>
     </div>
 
   </div>
@@ -504,8 +504,8 @@ var rows = [
   { label: 'Moderate-High',  score: '3.0–3.75',  area: 29309, color: '#4292c6' },
   { label: 'Moderate-Low',   score: '2.0–3.0',   area:  6458, color: '#9ecae1' },
   { label: 'Low',            score: '<2.0',       area:  1413, color: '#deebf7' },
-  { label: 'MPA excluded',   score: '—',          area:  2844, color: '#41ab5d' },
-  { label: 'Shipping excl.', score: '—',          area:   927, color: '#444444' },
+  { label: 'MPA excluded',   score: '-',          area:  2844, color: '#41ab5d' },
+  { label: 'Shipping excl.', score: '-',          area:   927, color: '#444444' },
 ];
 var totalArea = rows.reduce(function(s, r){ return s + r.area; }, 0);
 
