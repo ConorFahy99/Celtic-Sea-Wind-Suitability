@@ -61,10 +61,10 @@ Total cells: ~2.82 million
 
 | Depth range | Score | Rationale |
 |---|---|---|
-| 0 to −50 m | 1 | Transitional — fixed foundation range, less suited to floating |
+| 0 to −50 m | 1 | Transitional - fixed foundation range, less suited to floating |
 | −50 to −200 m | 5 | Optimal for floating wind (semi-sub / spar) |
-| −200 to −300 m | 4 | Good — deeper floating viable |
-| −300 to −500 m | 2 | Challenging — mooring system complexity increases |
+| −200 to −300 m | 4 | Good - deeper floating viable |
+| −300 to −500 m | 2 | Challenging - mooring system complexity increases |
 | < −500 m | 0 | Currently beyond feasible range |
 
 **Wind speed at 100 m hub height (weight: 35%)**
@@ -83,10 +83,10 @@ Total cells: ~2.82 million
 |---|---|---|
 | 0–5 km | 0 | Visual impact exclusion buffer |
 | 5–12 km | 1 | Near-shore, cumulative impact concerns |
-| 12–30 km | 3 | Moderate — cable export viable |
-| 30–60 km | 5 | Optimal — far enough for amenity, close enough for grid connection |
-| 60–100 km | 4 | Viable — longer export cable cost |
-| > 100 km | 2 | Challenging — grid connection and O&M costs high |
+| 12–30 km | 3 | Moderate - cable export viable |
+| 30–60 km | 5 | Optimal - far enough for amenity, close enough for grid connection |
+| 60–100 km | 4 | Viable - longer export cable cost |
+| > 100 km | 2 | Challenging - grid connection and O&M costs high |
 
 ### Weighted composite score
 
@@ -105,14 +105,14 @@ Scores range from 0.0 to 5.0. Hard exclusions are applied after scoring.
 
 | Class | Score range | Label | Colour |
 |---|---|---|---|
-| 0 | — | Excluded sea (too shallow / too deep) | Pale blue-grey |
+| 0 | - | Excluded sea (too shallow / too deep) | Pale blue-grey |
 | 1 | 0–2.0 | Low suitability | Pale yellow |
 | 2 | 2.0–3.0 | Moderate-Low | Amber |
 | 3 | 3.0–3.75 | Moderate-High | Orange |
 | 4 | 3.75–4.5 | High | Red |
 | 5 | > 4.5 | Very High | Deep crimson |
-| 6 | — | MPA excluded | Green |
-| 7 | — | Shipping lane excluded | Dark grey |
+| 6 | - | MPA excluded | Green |
+| 7 | - | Shipping lane excluded | Dark grey |
 
 ---
 
@@ -130,7 +130,7 @@ Scores range from 0.0 to 5.0. Hard exclusions are applied after scoring.
 | MPA excluded | 2,844 | 1.5% |
 | Shipping excluded | 927 | 0.5% |
 
-**Viable area (≥ Moderate-High, score ≥ 3.0): 159,479 km²** — approximately 84.5% of analysed sea area.
+**Viable area (≥ Moderate-High, score ≥ 3.0): 159,479 km²** - approximately 84.5% of analysed sea area.
 
 ### Wind speed distribution
 
@@ -142,7 +142,7 @@ Depth is the main discriminating variable. The optimal floating wind range (50�
 
 ### MPA and shipping footprint
 
-OSPAR MPAs cover 2,844 km² — a relatively small fraction of the EEZ but spatially concentrated in ecologically sensitive shelf areas. Shipping lane exclusions (927 km²) are similarly limited in extent, mainly concentrated along the south coast approaches.
+OSPAR MPAs cover 2,844 km² - a relatively small fraction of the EEZ but spatially concentrated in ecologically sensitive shelf areas. Shipping lane exclusions (927 km²) are similarly limited in extent, mainly concentrated along the south coast approaches.
 
 ### Spatial pattern
 
@@ -166,13 +166,13 @@ The analysis identifies a broad arc of Very High and High suitability extending 
 
 All raster processing was performed in Python using:
 
-- `rasterio` — raster I/O, reprojection, resampling
-- `numpy` — array operations, scoring logic
-- `scipy.ndimage.distance_transform_edt` — Euclidean distance transform for distance-from-shore
-- `pyshp` — direct shapefile binary parsing (required for large OSPAR MPA file)
-- `geopandas` — vector reprojection and GeoJSON export
-- `matplotlib` — print and web map cartography
-- `Leaflet.js` — interactive web map
+- `rasterio` - raster I/O, reprojection, resampling
+- `numpy` - array operations, scoring logic
+- `scipy.ndimage.distance_transform_edt` - Euclidean distance transform for distance-from-shore
+- `pyshp` - direct shapefile binary parsing (required for large OSPAR MPA file)
+- `geopandas` - vector reprojection and GeoJSON export
+- `matplotlib` - print and web map cartography
+- `Leaflet.js` - interactive web map
 
 QGIS (desktop) was used for initial data inspection, EEZ filtering, and GEBCO clipping. All analytical processing was handled in Python due to a GDAL/PROJ.db environment conflict on macOS.
 

@@ -8,7 +8,7 @@ Steps to publish this project with a live GitHub Pages URL, same as MetroLink.
 
 1. Go to https://github.com/new
 2. Repository name: `Celtic-Sea-Wind-Suitability`
-3. Description: `Multi-criteria offshore wind site suitability analysis — Ireland EEZ, Celtic Sea`
+3. Description: `Multi-criteria offshore wind site suitability analysis - Ireland EEZ, Celtic Sea`
 4. Set to **Public**
 5. Leave "Add a README file" **unchecked** (you already have one)
 6. Click **Create repository**
@@ -35,7 +35,7 @@ git remote add origin https://github.com/ConorFahy99/Celtic-Sea-Wind-Suitability
 git push -u origin main
 ```
 
-> If Git asks for credentials, use your GitHub username and a **Personal Access Token** (not your password). Generate one at: https://github.com/settings/tokens — select `repo` scope.
+> If Git asks for credentials, use your GitHub username and a **Personal Access Token** (not your password). Generate one at: https://github.com/settings/tokens - select `repo` scope.
 
 ---
 
@@ -63,7 +63,7 @@ Once Pages is active:
 | Interactive map | `https://conorfahy99.github.io/Celtic-Sea-Wind-Suitability/outputs/celtic_sea_wind_suitability_map.html` |
 | Findings infographic | `https://conorfahy99.github.io/Celtic-Sea-Wind-Suitability/outputs/findings_infographic.html` |
 
-> Always test in **incognito** (`Cmd+Shift+N`) after a new push — the browser caches old versions.
+> Always test in **incognito** (`Cmd+Shift+N`) after a new push - the browser caches old versions.
 
 ---
 
@@ -91,16 +91,16 @@ The `outputs/` directory contains:
 
 ```
 outputs/
-├── celtic_sea_wind_suitability_map.html   296 KB  — interactive map (self-contained)
-├── findings_infographic.html               21 KB  — findings page with charts
-├── Celtic_Sea_Wind_Suitability_web.png    217 KB  — web map image
-├── Celtic_Sea_Wind_Suitability_print.png  884 KB  — print layout
-├── celtic_sea_suitability.tif             109 KB  — classified raster (GIS use)
-├── celtic_sea_suitability_score.tif       953 KB  — continuous score raster (GIS use)
-└── suitability_overlay.png                 56 KB  — Leaflet overlay layer
+├── celtic_sea_wind_suitability_map.html   296 KB  - interactive map (self-contained)
+├── findings_infographic.html               21 KB  - findings page with charts
+├── Celtic_Sea_Wind_Suitability_web.png    217 KB  - web map image
+├── Celtic_Sea_Wind_Suitability_print.png  884 KB  - print layout
+├── celtic_sea_suitability.tif             109 KB  - classified raster (GIS use)
+├── celtic_sea_suitability_score.tif       953 KB  - continuous score raster (GIS use)
+└── suitability_overlay.png                 56 KB  - Leaflet overlay layer
 ```
 
-Total push: ~2.5 MB — well within GitHub's limits. The raw data files (`data/`) are large (several GB) and are excluded from the commit intentionally.
+Total push: ~2.5 MB - well within GitHub's limits. The raw data files (`data/`) are large (several GB) and are excluded from the commit intentionally.
 
 ---
 

@@ -1,4 +1,4 @@
-# Celtic Sea — Offshore Wind Site Suitability
+# Celtic Sea - Offshore Wind Site Suitability
 
 Multi-criteria raster suitability screening of Ireland's EEZ for floating offshore wind development. Built in Python and QGIS as a GIS portfolio project.
 
@@ -16,10 +16,10 @@ Multi-criteria raster suitability screening of Ireland's EEZ for floating offsho
 | Moderate-High | 3.0–3.75 | 29,309 | 15.5% |
 | Moderate-Low | 2.0–3.0 | 6,458 | 3.4% |
 | Low | < 2.0 | 1,413 | 0.7% |
-| MPA excluded | — | 2,844 | 1.5% |
-| Shipping excluded | — | 927 | 0.5% |
+| MPA excluded | - | 2,844 | 1.5% |
+| Shipping excluded | - | 927 | 0.5% |
 
-**159,479 km² viable (≥ Moderate-High) — 84.5% of the analysed EEZ.**
+**159,479 km² viable (≥ Moderate-High) - 84.5% of the analysed EEZ.**
 
 Mean wind speed at 100 m hub height: **10.51 m/s**. Wind resource is consistently strong across the entire EEZ; depth is the primary limiting factor.
 
@@ -51,11 +51,11 @@ Mean wind speed at 100 m hub height: **10.51 m/s**. Wind resource is consistentl
 **Depth:**
 | Range (m) | Score |
 |---|---|
-| 0 to −50 | 1 — fixed-foundation range |
-| −50 to −200 | 5 — optimal floating wind |
+| 0 to −50 | 1 - fixed-foundation range |
+| −50 to −200 | 5 - optimal floating wind |
 | −200 to −300 | 4 |
 | −300 to −500 | 2 |
-| < −500 | 0 — beyond current limits |
+| < −500 | 0 - beyond current limits |
 
 **Wind speed (m/s):** < 8.0 → 1 | 8.0–9.0 → 2 | 9.0–9.5 → 3 | 9.5–10.5 → 4 | > 10.5 → 5
 
@@ -81,12 +81,12 @@ Mean wind speed at 100 m hub height: **10.51 m/s**. Wind resource is consistentl
 
 ```
 outputs/
-├── celtic_sea_wind_suitability_map.html   — interactive Leaflet map (self-contained)
-├── findings_infographic.html              — standalone findings page with charts
-├── Celtic_Sea_Wind_Suitability_print.png  — 300 dpi print layout
-├── Celtic_Sea_Wind_Suitability_web.png    — 96 dpi web version
-├── celtic_sea_suitability.tif             — classified raster (uint8, classes 0–7)
-└── celtic_sea_suitability_score.tif       — continuous score (float32)
+├── celtic_sea_wind_suitability_map.html   - interactive Leaflet map (self-contained)
+├── findings_infographic.html              - standalone findings page with charts
+├── Celtic_Sea_Wind_Suitability_print.png  - 300 dpi print layout
+├── Celtic_Sea_Wind_Suitability_web.png    - 96 dpi web version
+├── celtic_sea_suitability.tif             - classified raster (uint8, classes 0–7)
+└── celtic_sea_suitability_score.tif       - continuous score (float32)
 ```
 
 ---
@@ -101,5 +101,5 @@ outputs/
 
 ## Author
 
-Conor Fahy — May 2026  
+Conor Fahy - May 2026  
 [LinkedIn](https://www.linkedin.com/in/conor-fahy) · [GitHub](https://github.com/ConorFahy99)
